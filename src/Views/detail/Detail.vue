@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
     <detail-nav-bar class="detail-nav" @title-click="titleClick"></detail-nav-bar>
-    <scroll class="content" ref="scroll">
+    <scroll class="content" @scroll="contentScroll" :probe-type="3"  ref="scroll">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
@@ -10,6 +10,8 @@
       <detail-comment-info :comment-info="commentInfo" ref="comment"></detail-comment-info>
       <goods-list :goods="recommends" ref="recommends"></goods-list>
     </scroll>
+    <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
+    <detail-bottom-bar></detail-bottom-bar>
   </div>
 </template>
 <script>
@@ -20,8 +22,9 @@ import DetailShopInfo from './childComponents/DetailShopInfo'
 import DetailGoodsInfo from './childComponents/DetailGoodsInfo'
 import DetailParamsInfo from './childComponents/DetailParamsInfo'
 import DetailCommentInfo from './childComponents/DetailCommentInfo'
+import DetailBottomBar from './childComponents/DetailBottomBar'
 import Scroll from 'components/common/scroll/Scroll'
-
+import BackTop from 'components/common/backTop/BackTop'
 import {getDetail,getDetailRecommend} from 'network/detail'
 import {Goods,Shop,GoodsParam} from 'network/detail'
 import GoodsList from 'components/common/goods/GoodsList'
@@ -38,8 +41,9 @@ export default{
     DetailGoodsInfo,
     DetailParamsInfo,
     DetailCommentInfo,
-    GoodsList
-
+    GoodsList,
+    DetailBottomBar,
+    BackTop
   },
   data(){
     return{
@@ -52,7 +56,9 @@ export default{
       commentInfo:{},
       recommends:[],
       themeTopYs: [],
-      getThemeTopY: null
+      getThemeTopY: null,
+      isShowBackTop: false,
+      currentIndex: 0
     }
   },
   created(){
@@ -95,11 +101,12 @@ export default{
       this.themeTopYs.push(this.$refs.recommends.$el.offsetTop)
       console.log(this.themeTopYs)
     },100)
+    //是否现实回到顶部
   },
   updated(){
     
   },
-  methods:{
+  methods: {
     detailImagesLoad(){
       this.$refs.scroll.refresh()
       this.getThemeTopY()
@@ -108,9 +115,17 @@ export default{
       
       this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],100)
       console.log(this.themeTopYs)
-    }
+    },
+    backTop(){
+      this.$refs.scroll.scrollTo(0,0)
+    },
+  contentScroll(position){
+    // console.log(position)
+      this.isShowBackTop = (-position.y) > 1000
   },
   mixins: [mixinImgItemLoad],
+  },
+  
 }
 </script>
 <style scoped>
@@ -126,6 +141,6 @@ export default{
   background-color: #fff;
 }
 .content{
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 50px);
 }
 </style>
