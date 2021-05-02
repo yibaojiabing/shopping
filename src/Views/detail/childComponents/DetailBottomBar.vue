@@ -22,6 +22,11 @@
 </template>
 <script>
 export default{
+  methods:{
+    addToCart(){
+      this.$emit('addCart')
+    }
+  }
 }
 </script>
 <style scoped>

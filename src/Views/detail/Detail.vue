@@ -9,9 +9,10 @@
       <detail-params-info :param-info="paramInfo" ref="params"></detail-params-info>
       <detail-comment-info :comment-info="commentInfo" ref="comment"></detail-comment-info>
       <goods-list :goods="recommends" ref="recommends"></goods-list>
+      
     </scroll>
     <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addCart='addCart'></detail-bottom-bar>
   </div>
 </template>
 <script>
@@ -119,11 +120,26 @@ export default{
     backTop(){
       this.$refs.scroll.scrollTo(0,0)
     },
-  contentScroll(position){
+    contentScroll(position){
     // console.log(position)
       this.isShowBackTop = (-position.y) > 1000
-  },
-  mixins: [mixinImgItemLoad],
+    },
+    addCart(){
+      //获取购物车需要展示的信息
+      const product = {}
+      product.image = this.topImages[0]
+      product.title = this.goods.title
+      product.desc = this.goods.desc
+      product.price = this.goods.realPrice
+      product.iid = this.iid
+      // console.log(product);
+      
+      //将商品添加到购物车
+      // this.$store.state.cartList.push(product)
+      // this.$store.commit('addCart',product)
+      this.$store.dispatch('addCart', product)
+    },
+    mixins: [mixinImgItemLoad],
   },
   
 }

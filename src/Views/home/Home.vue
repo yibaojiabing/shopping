@@ -150,7 +150,7 @@ export default {
   
   .content{
     margin-top: 44px;
-    height: calc(100% - 48px);
+    height: calc(100% - 48px - 49px);
     /* height: 300px; */
     overflow: hidden;
     
