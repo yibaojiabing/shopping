@@ -20,5 +20,6 @@ export default{
   }
   .check{
     border-color: red;
+    background-color: red;
   }
 </style>

@@ -9,9 +9,10 @@
       <detail-params-info :param-info="paramInfo" ref="params"></detail-params-info>
       <detail-comment-info :comment-info="commentInfo" ref="comment"></detail-comment-info>
       <goods-list :goods="recommends" ref="recommends"></goods-list>
-      
     </scroll>
     <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
+    
+    <toast :message="message" :show="show"></toast>
     <detail-bottom-bar @addCart='addCart'></detail-bottom-bar>
   </div>
 </template>
@@ -31,6 +32,7 @@ import {Goods,Shop,GoodsParam} from 'network/detail'
 import GoodsList from 'components/common/goods/GoodsList'
 import {debounce} from 'common/util'
 import {mixinImgItemLoad} from 'common/mixin'
+import Toast from 'components/common/toast/Toast'
 export default{
   name: 'Detail',
   components: {
@@ -44,7 +46,8 @@ export default{
     DetailCommentInfo,
     GoodsList,
     DetailBottomBar,
-    BackTop
+    BackTop,
+    Toast
   },
   data(){
     return{
@@ -59,7 +62,9 @@ export default{
       themeTopYs: [],
       getThemeTopY: null,
       isShowBackTop: false,
-      currentIndex: 0
+      currentIndex: 0,
+      message: '',
+      show: false
     }
   },
   created(){
@@ -137,7 +142,14 @@ export default{
       //将商品添加到购物车
       // this.$store.state.cartList.push(product)
       // this.$store.commit('addCart',product)
-      this.$store.dispatch('addCart', product)
+      this.$store.dispatch('addCart', product).then(res => {
+        this.show = true
+        this.message = res
+        setTimeout(() => {
+          this.show = false
+          this.message = ''
+        },1500)
+      })
     },
     mixins: [mixinImgItemLoad],
   },

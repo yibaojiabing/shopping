@@ -1,7 +1,7 @@
 <template>
   <div id="shop-item">
     <div class="item-selector">
-      <check-button></check-button>
+      <check-button :is-checked='product.checked' @click.native="checkClick"></check-button>
     </div>
     <!-- {{product}} -->
     <div class="item-img">
@@ -32,8 +32,13 @@ export default{
       }
     }
   },
-  created(){
-    console.log(this.product)
+  // created(){
+  //   console.log(this.product)
+  // },
+  methods:  {
+    checkClick(){
+      this.product.checked = !this.product.checked
+    }
   }
 }
 </script>
@@ -89,5 +94,9 @@ export default{
   }
   .info-bottom,.item-price{
     color: orangered;
+  }
+  .right, .left{
+    margin-top: 10px;
+
   }
 </style>

@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 // import vueRouter from 'vue-router'
 import Vue from 'vue'
 const Home = () => import('../Views/home/Home.vue')
-const Category = () => import('../Views/category/Category.vue')
+const Classify = () => import('../Views/category/Classify.vue')
 const ShopCar = () => import('../Views/shopcar/ShopCar.vue')
 const Profile = () => import('../Views/profile/Profile.vue')
 const Detail = () => import('../Views/detail/Detail')
@@ -18,7 +18,7 @@ const routes = [
   },
   {
     path: '/category',
-    component: Category
+    component: Classify
   },
   {
     path: '/shopcar',
