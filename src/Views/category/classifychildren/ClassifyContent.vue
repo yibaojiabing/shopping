@@ -1,16 +1,19 @@
 <template>
     <div id="classifyContent">
-        <scroll class="content" ref="scroll">
+        
             <div class="right">
-                <van-grid :column-num="2">
-                    <van-grid-item v-for="(item,index) in contentList" :key="index"
+                <scroll class="content-c" ref="scroll">
+                <div :column-num="2" >
+                    <div class="item" v-for="(item,index) in contentList" :key="index"
                                    @click.native="gotoLink(item.link)">
-                        <img :src="item.image" class="img-content" @load="imageLoad"/>
                         <div class="title-content">{{item.title}}</div>
-                    </van-grid-item>
-                </van-grid>
+                        <img :src="item.image" class="img-content" @load="imageLoad"/>
+                        
+                    </div>
+                </div>
+                </scroll>
             </div>
-        </scroll>
+        
     </div>
 </template>
 
@@ -65,17 +68,22 @@
         display: flex;
     }
 
-    .content {
+    .content-c {
         overflow: hidden;
         height: calc(100vh - 97px);
     }
-
+    .item{
+        height: 180px;
+        width: 180px;
+        margin-top: 24px;
+    }
     .img-content {
         width: 100%;
     }
 
     .title-content {
+        text-align: center;
         font-size: 18px;
-        margin-top: 20px;
+        /* margin-top: 10px; */
     }
 </style>
